@@ -8,13 +8,13 @@ app = Flask(__name__)
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
-try:
-    @app.route("/")
-    def index():
-        return render_template('index.html')
+@app.route("/")
+def index():
+    return render_template('index.html')
 
-    @app.route('/upload', methods=['POST'])
-    def upload():
+@app.route('/upload', methods=['POST'])
+def upload():
+    try:
         if 'file' not in request.files:
             return "No file part"
 
@@ -23,17 +23,18 @@ try:
             return "No selected file"
 
         file.save('uploads/' + 'sipoc_table.csv')  # Save the uploaded file
-        print("Debugging: Reached line 21")
+        logging.info("CSV file saved successfully.")
+
         # Call your Python script with the uploaded file as an argument
         subprocess.run(['python', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
-        print("Debugging: Reached line 25")
+        logging.info("Python script executed successfully.")
+
         return "File uploaded and processed successfully"
+    except Exception as e:
+        # Log any exceptions that occur
+        logging.error(f'An error occurred: {str(e)}')
+        return "An error occurred while processing the file."
 
-except Exception as e:
-    # Log the error message
-    logging.error(f'An error occurred: {str(e)}')
-
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
