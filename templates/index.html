@@ -29,8 +29,6 @@
                 <h2>PrOH Modeller</h2>
             </span></a>
 
-
-
     </div>
 </header>
 
@@ -52,6 +50,17 @@
                             <button id="uploadstbtn" class="btn btn-primary" type="submit" style="width: 115px;" >Upload</button>
                         </div>
                     </form>
+
+
+                    <div class="container mx-auto d-flex flex-column justify-content-center">
+                        <!-- Existing HTML content -->
+                        <div id="uploadStatus" class="alert alert-success" role="alert">
+                            {{ upload_status }}
+                        </div>
+                        
+                        <!-- Existing HTML content -->
+                    </div>
+                    
                     <!--
                     <div id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center">
                         <h6>2. Upload SIPOC Table (.CSV)</h6>
