@@ -27,7 +27,7 @@ def upload():
         logging.info("CSV file saved successfully.")
 
         # Call your Python script with the uploaded file as an argument
-        subprocess.run(['python', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
+        subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
         logging.info("Python script executed successfully.")
 
         return "File uploaded and processed successfully"
