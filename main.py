@@ -7,18 +7,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
     return render_template('index.html')
-    
-@app.route("/salvador")
-def salvador():
-    return "Hello, mandy"
-
-@app.route("/mandy")
-def mandy():
-    return "Hello, mandy jooon"
-
-@app.route("/uploadfile")
-def uploadfile():
- return render_template('index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -26,14 +14,16 @@ def upload():
         return "No file part"
 
     file = request.files['file']
-
     if file.filename == '':
         return "No selected file"
 
-    file.save('uploads/' + file.filename)  # Save the uploaded file
+    file.save('uploads/' + 'sipoc_table.csv')  # Save the uploaded file
+    print("Debugging: Reached line 21")
 
     # Call your Python script with the uploaded file as an argument
     subprocess.run(['python', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
+    print("Debugging: Reached line 25")
+
 
     return "File uploaded and processed successfully"
 
