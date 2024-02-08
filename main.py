@@ -6,7 +6,8 @@ import logging
 app = Flask(__name__)
 
 # Configure logging
-logging.basicConfig(filename='app.log', level=logging.ERROR)
+logging.basicConfig(filename='app.log', level=logging.INFO)
+
 
 @app.route("/")
 def index():
@@ -33,7 +34,7 @@ def upload():
     except Exception as e:
         # Log any exceptions that occur
         logging.error(f'An error occurred: {str(e)}')
-        return "An error occurred while processing the file."
+        return "An error occurred while processing the file.."
 
 
 if __name__ == '__main__':
