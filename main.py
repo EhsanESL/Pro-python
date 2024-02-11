@@ -30,7 +30,7 @@ def upload():
         logging.info("CSV file saved successfully.")
 
         # Call your Python script with the uploaded file as an argument
-        subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
+        subprocess.run(['python', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
         logging.info("Python script executed successfully.")
 
         return render_template('index.html', upload_status=UPLOAD_SUCCESS)
@@ -44,9 +44,13 @@ def download_pptx():
     try:
         # Specify the path to the PowerPoint file
         pptx_filename = 'uploads/output_presentation.pptx'
+        logging.info("PowerPoint file downloaded successfully.")
 
         # Return the file as an attachment
         return send_file(pptx_filename, as_attachment=True)
+        
+        
+
     except Exception as e:
         # Log any exceptions that occur
         logging.error(f'An error occurred: {str(e)}')
