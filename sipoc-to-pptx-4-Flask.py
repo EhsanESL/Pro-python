@@ -85,7 +85,7 @@ try:
             p.alignment = PP_ALIGN.CENTER
 
         # Save the PowerPoint presentation
-        pptx_filename = 'uploads/output_presentation4.pptx'
+        pptx_filename = 'uploads/output_presentation.pptx'
         presentation.save(pptx_filename)
 
         print(f'Second row of CSV file has been converted to an editable PowerPoint presentation: "{pptx_filename}"')

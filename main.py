@@ -39,6 +39,22 @@ def upload():
         logging.error(f'An error occurred: {str(e)}')
         return render_template('index.html', upload_status="An error occurred while processing the file..")
 
+@app.route('/download_pptx')
+def download_pptx():
+    try:
+        # Specify the path to the PowerPoint file
+        pptx_filename = 'uploads/output_presentation.pptx'
+
+        # Return the file as an attachment
+        return send_file(pptx_filename, as_attachment=True)
+    except Exception as e:
+        # Log any exceptions that occur
+        logging.error(f'An error occurred: {str(e)}')
+        # Return an error message or redirect to an error page
+        return "An error occurred while downloading the file."
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
