@@ -5,7 +5,9 @@
     <meta name="color-scheme" content="light only">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-eMNCOqj9mXo7K3qNOX9ddp6LGGwYEG9zil6ZdITiVo1J7ca2AP0vMChMp/1xOQ3R"
         crossorigin="anonymous"></script>
@@ -33,7 +35,7 @@
 </header>
 
 <body>
-    <div class="container mx-auto d-flex column justify-content-center"> 
+    <div class="container mx-auto d-flex column justify-content-center">
         <div class="column col-lg-10 justify-content-center">
             <div class="column card shadow mb-2 mx-auto  ">
                 <div class="card-body p-5">
@@ -43,11 +45,13 @@
                     </div><br>
 
 
-                    <form id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center" action="/upload" method="post" enctype="multipart/form-data">
+                    <form id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center"
+                        action="/upload" method="post" enctype="multipart/form-data">
                         <h6>2. Upload SIPOC Table (.CSV)</h6>
                         <div class="d-flex justify-content-md-end">
                             <input class="form-control" type="file" name="file" style="width: 100%;">
-                            <button id="uploadstbtn" class="btn btn-primary" type="submit" style="width: 115px;" >Upload</button>
+                            <button id="uploadstbtn" class="btn btn-primary" type="submit"
+                                style="width: 115px;">Upload</button>
                         </div>
                     </form>
 
@@ -57,10 +61,10 @@
                         <div id="uploadStatus" class="alert" role="alert">
                             {{ upload_status }}
                         </div>
-                        
+
                         <!-- Existing HTML content -->
                     </div>
-                    
+
                     <!--
                     <div id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center">
                         <h6>2. Upload SIPOC Table (.CSV)</h6>
@@ -93,7 +97,7 @@
 
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>3. Download Powerpoint Core Process Statement</h6>
-                                <button id="powerpointbtn" class="btn btn-primary me-md-2 disabled" type="button"
+                                <button id="powerpointbtn" class="btn btn-primary me-md-2 " type="button"
                                     onclick="downloadppbtn()">Download</button>
                             </div>
                             <!--<div style="height: 4px" class="progress">
@@ -146,7 +150,8 @@
             </div>
         </div>
         <div class="column mx-2 ">
-            <button id="newbtn" class="btn btn-outline-primary me-md-2" type="button" onclick="resetPage()">New</button><br>
+            <button id="newbtn" class="btn btn-outline-primary me-md-2" type="button"
+                onclick="resetPage()">New</button><br>
         </div>
     </div>
     <script>
@@ -168,6 +173,13 @@
                 window.open(fileLink, '_blank');
             }, 1000);// Adjust the delay
         }
+
+
+
+
+
+
+
         function downloadallbtn() {
             document.getElementById('downloadall').disabled = true;
             var fileLink = 'pro1.jpg';
@@ -180,17 +192,25 @@
             }, 1000);
         }
 
+
         function downloadppbtn() {
             document.getElementById('powerpointbtn').disabled = true;
-            var fileLink = 'pro1.jpg';
-            setTimeout(function () {
-                document.getElementById('progressBarpp').style.width = '100%';
-                document.getElementById('powerpointbtn').textContent = "Downloaded";
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/download_pptx', true);
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'output_presentation4.pptx';
+                    link.click();
+                }
+            };
+            xhr.send();
         }
+
+
         function downloadpsbtn() {
             document.getElementById('processstatementbtn').disabled = true;
             var fileLink = 'pro1.jpg';
