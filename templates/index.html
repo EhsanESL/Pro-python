@@ -41,29 +41,34 @@
                 <div class="card-body p-5">
                     <div class="d-flex justify-content-sm-between align-items-center">
                         <h6>1. Download SIPOC Table</h6>
-                        <button id="newbtn" class="btn btn-primary" type="button" onclick="">Download</button>
+                        <button id="newbtn" class="btn btn-primary" type="button"
+                            onclick="SIPOCTableDownload()">Download</button>
+                        <a id="downloadLink" href="{{ url_for('static', filename='Sipoc-Table-Template.csv') }}"
+                            style="display: none;"></a>
                     </div><br>
 
 
-                    <form id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center"
-                        action="/upload" method="post" enctype="multipart/form-data">
-                        <h6>2. Upload SIPOC Table (.CSV)</h6>
-                        <div class="d-flex justify-content-md-end">
-                            <input class="form-control" type="file" name="file" style="width: 100%;">
-                            <button id="uploadstbtn" class="btn btn-primary" type="submit"
-                                style="width: 115px;">Upload</button>
+
+                    <div class="row">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <form id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center"
+                                    action="/upload" method="post" enctype="multipart/form-data">
+                                    <h6>2. Upload SIPOC Table (.CSV)</h6>
+                            </div>
+                            <div class="d-inline-flex justify-content-end align-items-start mb-3">
+                                <input class="form-control" id="fileInput" type="file" name="file"
+                                    style="width: 100%; height: auto;">
+                                <button id="uploadstbtn" class="btn btn-primary" type="button" onclick="uploadFile()"
+                                    style="width: 115px;">Upload</button>
+                            </div>
                         </div>
-                    </form>
-
-
-                    <div class="container  d-flex flex-column justify-content-md-end">
-                        <!-- Existing HTML content -->
-                        <div id="uploadStatus" class="alert" role="alert">
+                        <div class="d-flex justify-content-end mb-2" id="uploadStatus" style="color: red;">
                             {{ upload_status }}
                         </div>
-
-                        <!-- Existing HTML content -->
                     </div>
+                    </form>
+
 
                     <!--
                     <div id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center">
@@ -97,7 +102,7 @@
 
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>3. Download Powerpoint Core Process Statement</h6>
-                                <button id="powerpointbtn" class="btn btn-primary me-md-2 " type="button"
+                                <button id="powerpointbtn" class="btn btn-primary me-md-2 disabled" type="button"
                                     onclick="downloadppbtn()">Download</button>
                             </div>
                             <!--<div style="height: 4px" class="progress">
@@ -155,24 +160,59 @@
         </div>
     </div>
     <script>
-        function uploadbtn() {
-            document.getElementById('uploadstbtn').disabled = true;
-            setTimeout(function () {
-                document.getElementById('progressBarst').style.width = '100%';
-                document.getElementById('uploadstbtn').textContent = "Uploaded";
-                document.getElementById('formFile').disabled = true;
-                document.getElementById('powerpointbtn').classList.remove('disabled');
-                document.getElementById('processstatementbtn').classList.remove('disabled');
-                document.getElementById('Subbubblesbtn').classList.remove('disabled');
-                document.getElementById('decisionnodesbtn').classList.remove('disabled');
-                document.getElementById('verbscollectionbtn').classList.remove('disabled');
-                document.getElementById('downloadall').classList.remove('disabled');
-                // Trigger the download using a hidden iframe
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);// Adjust the delay
+
+
+        function SIPOCTableDownload() {
+            console.log('SIPOC Table download initiated...');
+
+            // Disable the button to prevent multiple clicks
+            document.getElementById('newbtn').disabled = true;
+
+            // Click the hidden link to initiate the download
+            document.getElementById('downloadLink').click();
+
+            console.log('Download initiated.');
         }
+
+
+
+
+        function uploadFile() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            formData.append('file', file);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/upload');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                       
+                        // Update the upload status based on the response from the server
+                        var response = JSON.parse(xhr.responseText);
+                        if (response && response.message) {
+                            document.getElementById('uploadStatus').textContent = response.message;
+                            document.getElementById('progressBarst').style.width = '100%';
+                        document.getElementById('uploadstbtn').textContent = "Uploaded";
+                        document.getElementById('powerpointbtn').classList.remove('disabled');
+                        document.getElementById('processstatementbtn').classList.remove('disabled');
+                        document.getElementById('Subbubblesbtn').classList.remove('disabled');
+                        document.getElementById('decisionnodesbtn').classList.remove('disabled');
+                        document.getElementById('verbscollectionbtn').classList.remove('disabled');
+                        document.getElementById('downloadall').classList.remove('disabled');
+                        }
+                        // Handle success
+                    } else {
+                        // Handle error
+                        console.error('Upload failed:', xhr.status);
+                        document.getElementById('uploadStatus').textContent = 'Upload failed';
+                    }
+                }
+            };
+            xhr.send(formData);
+        }
+
 
 
 
@@ -256,9 +296,8 @@
             }, 1000);
         }
         function resetPage() {
-            location.reload();
+            window.location.href = "/";
         }
-
         function downloadall() {
             document.getElementById('downloadall').disabled = true;
             var fileLink = 'pro1.jpg';

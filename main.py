@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file,jsonify
 import subprocess
 import os
 import logging
@@ -20,11 +20,11 @@ def index():
 def upload():
     try:
         if 'file' not in request.files:
-            return render_template('index.html', upload_status=NO_FILE_SELECTED)
+            return jsonify({'error': 'No file selected'}), 400
 
         file = request.files['file']
         if file.filename == '':
-            return render_template('index.html', upload_status=NO_FILE_SELECTED)
+            return jsonify({'error': 'No file selected'}), 400
 
         file.save('uploads/' + 'sipoc_table.csv')  # Save the uploaded file
         logging.info("CSV file saved successfully.")
@@ -33,11 +33,13 @@ def upload():
         subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', 'uploads/' + file.filename])
         logging.info("Python script executed successfully.")
 
-        return render_template('index.html', upload_status=UPLOAD_SUCCESS)
+        return jsonify({'message': 'Upload successful'}), 200
     except Exception as e:
         # Log any exceptions that occur
         logging.error(f'An error occurred: {str(e)}')
-        return render_template('index.html', upload_status="An error occurred while processing the file..")
+        return jsonify({'error': 'An error occurred while processing the file'}), 500
+
+
 
 @app.route('/download_pptx')
 def download_pptx():
