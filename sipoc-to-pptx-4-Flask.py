@@ -6,6 +6,8 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
 import spacy
 import logging
+import os
+import sys
 
 # Configure logging
 logging.basicConfig(filename='app.log', level=logging.ERROR)
@@ -14,10 +16,18 @@ logging.basicConfig(filename='app.log', level=logging.ERROR)
 nlp = spacy.load("en_core_web_sm")
 
 try:
-    # Your existing code here   
-    # Read the CSV file and extract the second row
-    csv_filename = 'uploads/sipoc_table.csv'  # Replace with the path to your CSV file
-    with open(csv_filename, 'r') as csv_file:
+    # Get the file name with the identifier from the command-line arguments
+    filename_with_identifier = sys.argv[1]
+    logging.info("looking for the filepath")
+
+    filename_without_extension = os.path.splitext(filename_with_identifier)[0]
+    logging.info(f"Filename without extension: {filename_without_extension}")
+
+    # Construct the complete file path
+    file_path = os.path.join(filename_with_identifier)
+    logging.info(f"Uploaded filepath: {file_path}")
+
+    with open(file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         rows = list(csv_reader)
 
@@ -84,16 +94,12 @@ try:
             p.font.color.rgb = RGBColor(0, 0, 0)  # Black font color
             p.alignment = PP_ALIGN.CENTER
 
-        # Save the PowerPoint presentation
-        pptx_filename = 'uploads/output_presentation.pptx'
-        presentation.save(pptx_filename)
-
-        print(f'Second row of CSV file has been converted to an editable PowerPoint presentation: "{pptx_filename}"')
-
+    # Save the PowerPoint presentation with the same identifier
+    pptx_filename = os.path.join(filename_without_extension +'.pptx')
+    presentation.save(pptx_filename)
+    logging.info("output_presentation is saved successfully.")
+    print(f'Second row of CSV file has been converted to an editable PowerPoint presentation: "{pptx_filename}"')
 
 except Exception as e:
     # Log any exceptions that occur
     logging.error(f'An error occurred: {str(e)}')
-
-
-
