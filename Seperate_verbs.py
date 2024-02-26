@@ -6,16 +6,21 @@ import os
 import sys
 import logging
 
-
 # Download NLTK data if not already installed
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
+
+# Redirect stdout to a file
+sys.stdout = open('output.log', 'w')
+
+print("Downloaded NLTK data")
 
 # Input CSV file name
 filename_with_identifier = sys.argv[1]
 filename_without_extension = os.path.splitext(filename_with_identifier)[0]
 file_path = os.path.join(filename_with_identifier)
  
+print("Input CSV file name")
 
 with open(file_path, 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
@@ -23,6 +28,7 @@ with open(file_path, 'r') as csv_file:
 
 input_file = os.path.join(filename_with_identifier) 
 output_file = os.path.join(filename_without_extension +'verbs'+'.csv')
+print(f"output_file '{output_file}'")
 
 # List to store verbs
 verbs_data = []
