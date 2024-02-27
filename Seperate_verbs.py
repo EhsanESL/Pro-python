@@ -6,12 +6,13 @@ import os
 import sys
 import logging
 
+# Configure logging
+logging.basicConfig(filename='app.log', level=logging.INFO)
+
 # Download NLTK data if not already installed
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
-# Configure logging
-logging.basicConfig(filename='app.log', level=logging.INFO)
 
 try: 
 # Input CSV file name
