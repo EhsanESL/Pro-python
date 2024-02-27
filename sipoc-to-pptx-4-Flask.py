@@ -9,8 +9,20 @@ import logging
 import os
 import sys
 
-# Configure logging
-logging.basicConfig(filename='app.log', level=logging.ERROR)
+# Create a new logger instance for Seperate_verbs.py
+logger = logging.getLogger('sipoc_to_pptx_logger')
+logger.setLevel(logging.INFO)  # Set the log level to INFO
+
+# Create a file handler to output logs to a file
+file_handler = logging.FileHandler('sipoc_to_pptx.log')
+file_handler.setLevel(logging.INFO)  # Set the log level for the handler to INFO
+
+# Define a formatter for the log messages
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)  # Attach the formatter to the handler
+
+# Add the file handler to the logger
+logger.addHandler(file_handler)
 
 # Load the spaCy English model
 nlp = spacy.load("en_core_web_sm")
@@ -18,14 +30,14 @@ nlp = spacy.load("en_core_web_sm")
 try:
     # Get the file name with the identifier from the command-line arguments
     filename_with_identifier = sys.argv[1]
-    logging.info("looking for the filepath")
+    logger.info("looking for the filepath")
 
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
-    logging.info(f"Filename without extension: {filename_without_extension}")
+    logger.info(f"Filename without extension: {filename_without_extension}")
 
     # Construct the complete file path
     file_path = os.path.join(filename_with_identifier)
-    logging.info(f"Uploaded filepath: {file_path}")
+    logger.info(f"Uploaded filepath: {file_path}")
 
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -97,7 +109,8 @@ try:
     # Save the PowerPoint presentation with the same identifier
     pptx_filename = os.path.join(filename_without_extension +'.pptx')
     presentation.save(pptx_filename)
-    logging.info("output_presentation is saved successfully.")
+    logger.info("output_presentation is saved successfully.")
+    logger.info(f"output_presentation path: {os.path.join(filename_without_extension +'.pptx')}")
     print(f'Second row of CSV file has been converted to an editable PowerPoint presentation: "{pptx_filename}"')
 
 except Exception as e:

@@ -43,7 +43,7 @@ try:
         rows = list(csv_reader)
 
     input_file = file_path
-    output_file = os.path.join('uploads',filename_without_extension +'SubBubbles'+'.csv')
+    output_file = os.path.join(filename_without_extension +'SubBubbles'+'.csv')
     logger.info(f"output_file {output_file}")
 
     # List to store cells with parentheses

@@ -121,7 +121,7 @@ def download_Sub_bubbles():
         if file_path:
             filename_with_identifier = os.path.basename(file_path)
             filename_without_extension = os.path.splitext(filename_with_identifier)[0]
-            verbs_csvfile= os.path.join('uploads',filename_without_extension +'verbs'+'.csv')
+            verbs_csvfile= os.path.join('uploads',filename_without_extension +'SubBubbles'+'.csv')
             logging.info("Sub_bubbles file downloaded successfully.")
 
 
