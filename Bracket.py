@@ -31,7 +31,7 @@ try:
     # Input CSV file name
     filename_with_identifier = sys.argv[1]
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
-    file_path = os.path.join(filename_with_identifier)
+    file_path = os.path.join('uploads',filename_with_identifier)
     logger.info("Bracket.py :Input CSV file name.")
     logger.info(f"filename_with_identifier: {filename_with_identifier}")
     logger.info(f"filename_without_extension: {filename_without_extension}")
@@ -42,8 +42,8 @@ try:
         csv_reader = csv.reader(csv_file)
         rows = list(csv_reader)
 
-    input_file = os.path.join(filename_with_identifier) 
-    output_file = os.path.join(filename_without_extension +'SubBubbles'+'.csv')
+    input_file = file_path
+    output_file = os.path.join('uploads',filename_without_extension +'SubBubbles'+'.csv')
     logger.info(f"output_file {output_file}")
 
     # List to store cells with parentheses
