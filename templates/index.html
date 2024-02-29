@@ -8,6 +8,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JavaScript (bundle includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
     <title>PrOH Modeller Tool</title>
 
     <style>
@@ -53,9 +58,37 @@
                             <div class="d-inline-flex justify-content-end align-items-start mb-3">
                                 <input class="form-control" id="fileInput" type="file" name="file"
                                     style="width: 100%; height: auto;">
-                                <button id="uploadstbtn" class="btn btn-primary" type="button" onclick="uploadFile()"
-                                    style="width: 115px;">Upload</button>
+                                <button id="uploadstbtn" class="btn btn-primary" type="button"
+                                    style="width: 115px;" onclick="ConsentModal()">Upload</button>
                             </div>
+
+                            <button type="button" id="ConsentModalbtn" class="btn btn-primary " data-bs-toggle="modal"
+                                data-bs-target="#consentform" style="display: none;">hidden modal button</button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="consentform" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="consentformLabel">Modal title</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                                                onclick="uploadFile()">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
                         </div>
                         <div class="d-flex justify-content-end mb-2" id="uploadStatus" style="color: red;">
                             {{ upload_status }}
@@ -165,6 +198,10 @@
             document.getElementById('downloadLink').click();
 
             console.log('Download initiated.');
+        }
+        function ConsentModal() {
+            // Click the hidden button to initiate upload
+            document.getElementById('ConsentModalbtn').click();
         }
 
         function uploadFile() {

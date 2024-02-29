@@ -1,0 +1,10 @@
+2024-02-29 14:56:47,460 - INFO - start try
+2024-02-29 14:56:47,461 - INFO - Bracket.py :Input CSV file name.
+2024-02-29 14:56:47,461 - INFO - filename_with_identifier: uploads\Sipoc-Table-Template_b26dcfdb.csv
+2024-02-29 14:56:47,461 - INFO - filename_without_extension: uploads\Sipoc-Table-Template_b26dcfdb
+2024-02-29 14:56:47,461 - INFO - file_path: uploads\Sipoc-Table-Template_b26dcfdb.csv
+2024-02-29 14:56:47,463 - INFO - output_file uploads\Sipoc-Table-Template_b26dcfdbSubBubbles.csv
+2024-02-29 14:56:47,466 - INFO - start to write cells with parentheses to the output CSV file
+2024-02-29 14:56:47,470 - INFO - Cells with parentheses have been saved to 'uploads\Sipoc-Table-Template_b26dcfdbSubBubbles.csv'
+2024-02-29 14:56:47,475 - INFO - start to write words between parentheses to the output CSV file
+2024-02-29 14:56:47,478 - INFO - Words between parentheses have been saved to 'uploads\Sipoc-Table-Template_b26dcfdbSubBubbles.csv'

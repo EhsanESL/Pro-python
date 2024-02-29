@@ -8,11 +8,11 @@ import logging
 import re
 
 # Create a new logger instance for Seperate_verbs.py
-logger = logging.getLogger('Seperate_verbs_logger')
+logger = logging.getLogger('bracket_logger')
 logger.setLevel(logging.INFO)  # Set the log level to INFO
 
 # Create a file handler to output logs to a file
-file_handler = logging.FileHandler('separate_verbs.log')
+file_handler = logging.FileHandler('bracket.log')
 file_handler.setLevel(logging.INFO)  # Set the log level for the handler to INFO
 
 # Define a formatter for the log messages
@@ -31,7 +31,7 @@ try:
     # Input CSV file name
     filename_with_identifier = sys.argv[1]
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
-    file_path = os.path.join('uploads',filename_with_identifier)
+    file_path = os.path.join(filename_with_identifier)
     logger.info("Bracket.py :Input CSV file name.")
     logger.info(f"filename_with_identifier: {filename_with_identifier}")
     logger.info(f"filename_without_extension: {filename_without_extension}")
