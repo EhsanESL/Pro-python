@@ -56,11 +56,11 @@ def upload():
 
         # Call your Python3 scripts with the uploaded file as an argument
         logging.info("calling your Python3 scripts.")
-        subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', file_path])
+        subprocess.run(['/usr/bin/python3', 'sipoc-to-pptx-4-Flask.py', file_path])
         logging.info("sipoc-to-pptx-4-Flask.py executed successfully.")
-        subprocess.run(['python3', 'Seperate_verbs.py', file_path])
+        subprocess.run(['/usr/bin/python3', 'Seperate_verbs.py', file_path])
         logging.info("Seperate_verbs.py executed successfully.")
-        subprocess.run(['python3', 'Bracket.py', file_path])
+        subprocess.run(['/usr/bin/python3', 'Bracket.py', file_path])
         logging.info("Bracket.py executed successfully.")
 
         return jsonify({'message': 'Upload successful'}), 200
