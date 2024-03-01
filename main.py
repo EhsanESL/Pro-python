@@ -4,6 +4,9 @@ import os
 import logging
 import uuid  # for generating unique identifiers
 
+# Set the PATH environment variable to include the directory containing the Python executable
+os.environ['PATH'] = '/usr/bin:' + os.environ.get('PATH', '')
+
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Secret key for session
 
