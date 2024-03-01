@@ -54,7 +54,8 @@ def upload():
         filename_without_extension = os.path.splitext(filename_with_identifier)[0]
         logging.info(f"Filename without extension: {filename_without_extension}")
 
-        # Call your Python scripts with the uploaded file as an argument
+        # Call your Python3 scripts with the uploaded file as an argument
+        logging.info("calling your Python3 scripts.")
         subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', file_path])
         logging.info("sipoc-to-pptx-4-Flask.py executed successfully.")
         subprocess.run(['python3', 'Seperate_verbs.py', file_path])
