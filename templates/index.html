@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,6 +12,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap JavaScript (bundle includes Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/color-modes.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <title>PrOH Modeller Tool</title>
 
@@ -24,6 +27,7 @@
     </style>
 
 </head>
+
 <header class="topheader">
     <div class="d-flex align-items-center  pb-3 mb-3 border-bottom justify-content-md-center">
         <a href="index.html" class="link-body-emphasis text-decoration-none "><span class="fs-4">
@@ -38,28 +42,25 @@
         <div class="column col-lg-10 justify-content-center">
             <div class="column card shadow mb-2 mx-auto  ">
                 <div class="card-body p-5">
-                    <div class="d-flex justify-content-sm-between align-items-center">
+                    <div class="d-flex justify-content-sm-between align-items-center me-md-2">
                         <h6>1. Download SIPOC Table</h6>
-                        <button id="newbtn" class="btn btn-primary" type="button"
+                        <button id="newbtn" class="btn btn-primary " type="button" style="width: 150px;"
                             onclick="SIPOCTableDownload()">Download</button>
                         <a id="downloadLink" href="{{ url_for('static', filename='Sipoc-Table-Template.csv') }}"
                             style="display: none;"></a>
                     </div><br>
 
-
-
                     <div class="row">
-                        <div class="d-flex justify-content-between">
-                            <div>
+                        <div class="d-flex justify-content-between ">
+                            <div class="flex-row me-md-2">
                                 <form id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center"
                                     action="/upload" method="post" enctype="multipart/form-data">
                                     <h6>2. Upload SIPOC Table (.CSV)</h6>
                             </div>
-                            <div class="d-inline-flex justify-content-end align-items-start mb-3">
-                                <input class="form-control" id="fileInput" type="file" name="file"
-                                    style="width: 100%; height: auto;">
-                                <button id="uploadstbtn" class="btn btn-primary" type="button"
-                                    style="width: 115px;" onclick="ConsentModal()">Upload</button>
+                            <div class="d-flex justify-content-end me-md-2">
+                                <div><input class="form-control" id="fileInput" type="file" name="file"></div>
+                                <div><button id="uploadstbtn" class="btn btn-primary" type="button"
+                                        style="width: 150px;" onclick="ConsentModal()">Upload</button></div>
                             </div>
 
                             <button type="button" id="ConsentModalbtn" class="btn btn-primary " data-bs-toggle="modal"
@@ -75,7 +76,11 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            By uploading this file, you consent to our processing of the data contained within it. We will use this information solely for the purpose of the requested service. You have the right to withdraw your consent at any time. For more details on how we handle your data, please refer to our privacy policy
+                                            By uploading this file, you consent to our processing of the data contained
+                                            within it. We will use this information solely for the purpose of the
+                                            requested service. You have the right to withdraw your consent at any time.
+                                            For more details on how we handle your data, please refer to our privacy
+                                            policy
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -86,9 +91,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                         <div class="d-flex justify-content-end mb-2" id="uploadStatus" style="color: red;">
                             {{ upload_status }}
@@ -96,17 +98,6 @@
                     </div>
                     </form>
 
-
-                    <!--
-                    <div id="fileupload" class="mb-3 d-flex justify-content-sm-between align-items-center">
-                        <h6>2. Upload SIPOC Table (.CSV)</h6>
-                        <div class="d-flex justify-content-md-end">
-                            <input class="form-control" type="file" id="formFile" style="width: 100%;">
-                            <button id="uploadstbtn" class="btn btn-primary " type="button" style="width: 115px;"
-                                onclick="uploadbtn()">Upload</button>
-                        </div>
-                    </div>
-                    -->
                     <div style="height: 4px" class="progress">
                         <div id="progressBarst" role="progressbar" aria-label="Success example" aria-valuenow="0"
                             aria-valuemin="0" aria-valuemax="100" style="width: 5%" class="progress-bar bg-success">
@@ -120,8 +111,9 @@
                         <div>
                             <div class="d-flex justify-content-sm-end pb-3">
                                 <button id="downloadall" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadallbtn()">Download All</button>
+                                    onclick="downloadallbtn()" style="width: 150px;">Download All</button>
                             </div>
+
                             <div style="height: 4px" class="progress">
                                 <div id="progressBarall" role="progressbar" aria-valuenow="0" aria-valuemin="0"
                                     aria-valuemax="100" style="width: 5%" class="progress-bar bg-success"></div>
@@ -130,53 +122,33 @@
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>3. Download PowerPoint Core Process Statement</h6>
                                 <button id="powerpointbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadppbtn()">Download</button>
+                                    onclick="downloadppbtn()" style="width: 150px;">Download</button>
                             </div>
-                            <!--<div style="height: 4px" class="progress">
-                    <div id="progressBarpp" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                        style="width: 5%" class="progress-bar bg-success"></div>
-                </div>-->
 
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>4. Download Non-Core Process Statement Bubbles </h6>
                                 <button id="processstatementbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadpsbtn()">Download</button>
+                                    onclick="downloadpsbtn()" style="width: 150px;">Download</button>
                             </div>
-                            <!-- <div style="height: 4px" class="progress">
-                    <div id="progressBarps" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                        style="width: 5%" class="progress-bar bg-success"></div>
-                </div>-->
 
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>5. Download Sub-bubbles</h6><br>
                                 <button id="Subbubblesbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadsbbtn()">Download</button>
+                                    onclick="downloadsbbtn()" style="width: 150px;">Download</button>
                             </div>
-                            <!--<div style="height: 4px" class="progress">
-                    <div id="progressBarsb" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                        style="width: 5%" class="progress-bar bg-success"></div>
-                </div><br>-->
 
                             <div class="d-flex justify-content-sm-between pt-3 align-items-center">
                                 <h6>6. Download Decision Bubbles</h6>
                                 <button id="decisionnodesbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloaddnbtn()">Download</button>
+                                    onclick="downloaddnbtn()" style="width: 150px;">Download</button>
                             </div>
-                            <!--<div style="height: 4px" class="progress">
-                    <div id="progressBardn" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                        style="width: 5%" class="progress-bar bg-success"></div>
-                </div><br>-->
 
                             <div class="d-flex justify-content-sm-between pt-3 mb-3 align-items-center">
                                 <h6>7. Download Verbs Phrases for Link Arrows</h6>
                                 <button id="verbscollectionbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadVerbCSV()">Download</button>
+                                    onclick="downloadVerbCSV()" style="width: 150px
+                                    ;">Download</button>
                             </div>
-
-                            <!--<div style="height: 4px" class="progress">
-                    <div id="progressBarvc" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                        style="width: 5%" class="progress-bar bg-success"></div>
-                </div><br>-->
                         </div>
                     </div>
                 </div>
@@ -297,24 +269,7 @@
                 }
             };
             xhr.send();
-
-
-            // document.getElementById('Subbubblesbtn').disabled = true;
-            //var fileLink = 'pro1.jpg';
-            //setTimeout(function () {
-            //  document.getElementById('progressBarsb').style.width = '100%';
-            // document.getElementById('Subbubblesbtn').textContent = "Downloaded";
-            // var downloadFrame = document.getElementById('downloadFrame');
-            // downloadFrame.src = fileLink;
-            //  window.open(fileLink, '_blank');
-            // }, 1000);
         }
-
-
-
-
-
-
 
 
         function downloaddnbtn() {
