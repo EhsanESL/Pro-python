@@ -261,10 +261,27 @@
             xhr.responseType = 'blob';
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    var blob = new Blob([xhr.response], { type: 'text/csv' });
+                    var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
-                    link.download = 'Sub_bubbles.csv';
+                    link.download = 'Sub_bubbles.pptx';
+                    link.click();
+                }
+            };
+            xhr.send();
+        }
+
+        function downloaddnbtn() {
+                    document.getElementById('decisionnodesbtn').disabled = true;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/download_decision_bubbles', true);
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'Decision_Bubbles.pptx';
                     link.click();
                 }
             };
@@ -272,17 +289,6 @@
         }
 
 
-        function downloaddnbtn() {
-            document.getElementById('decisionnodesbtn').disabled = true;
-            var fileLink = 'pro1.jpg';
-            setTimeout(function () {
-                document.getElementById('progressBardn').style.width = '100%';
-                document.getElementById('decisionnodesbtn').textContent = "Downloaded";
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);
-        }
 
         function downloadVerbCSV() {
             document.getElementById('verbscollectionbtn').disabled = true;

@@ -4,8 +4,7 @@ import os
 import logging
 import uuid  # for generating unique identifiers
 
-# Set the PATH environment variable to include the directory containing the Python executable
-os.environ['PATH'] = '/usr/bin:' + os.environ.get('PATH', '')
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Secret key for session
@@ -59,12 +58,14 @@ def upload():
 
         # Call your Python3 scripts with the uploaded file as an argument
         logging.info("calling your Python3 scripts.")
-        subprocess.run(['/usr/bin/python3', 'sipoc-to-pptx-4-Flask.py', file_path])
+        subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', file_path])
         logging.info("sipoc-to-pptx-4-Flask.py executed successfully.")
-        subprocess.run(['/usr/bin/python3', 'Seperate_verbs.py', file_path])
+        subprocess.run(['python3', 'Seperate_verbs.py', file_path])
         logging.info("Seperate_verbs.py executed successfully.")
-        subprocess.run(['/usr/bin/python3', 'Bracket.py', file_path])
+        subprocess.run(['python3', 'Bracket.py', file_path])
         logging.info("Bracket.py executed successfully.")
+        subprocess.run(['python3', 'Decision-Bubbles.py', file_path])
+        logging.info("Decision-Bubbles.py executed successfully.")
 
         return jsonify({'message': 'Upload successful'}), 200
     except Exception as e:
@@ -116,6 +117,28 @@ def download_verbs():
         # Return an error message or redirect to an error page
         return "An error occurred while downloading the file."
     
+@app.route('/download_decision_bubbles')
+def download_decision_bubbles():
+        try:
+            # Get the file path from session
+            file_path = session.get('file_path')
+            if file_path:
+                # Specify the path to the PowerPoint file
+                filename_with_identifier = os.path.basename(file_path)
+                filename_without_extension = os.path.splitext(filename_with_identifier)[0]
+                pptx_filename = os.path.join('uploads', filename_without_extension + '_decision-bubbles' + '.pptx')
+                logging.info("decision_bubbles pptx file downloaded successfully.")
+
+                # Return the file as an attachment
+                return send_file(pptx_filename, as_attachment=True)
+            else:
+                return "No file to download"
+        except Exception as e:
+            # Log any exceptions that occur
+            logging.error(f'An error occurred: {str(e)}')
+            # Return an error message or redirect to an error page
+            return "An error occurred while downloading the file."
+    
     
 @app.route('/download_Sub_bubbles')
 def download_Sub_bubbles():
@@ -125,17 +148,21 @@ def download_Sub_bubbles():
         if file_path:
             filename_with_identifier = os.path.basename(file_path)
             filename_without_extension = os.path.splitext(filename_with_identifier)[0]
-            verbs_csvfile= os.path.join('uploads',filename_without_extension +'SubBubbles'+'.csv')
-            logging.info("Sub_bubbles file downloaded successfully.")
+            verbs_pptxfile= os.path.join('uploads',filename_without_extension +'_SubBubbles'+'.pptx')
+            logging.info(f"Sub_bubbles pptx file path {verbs_pptxfile}")
+            logging.info("Sub_bubbles pptx file downloaded successfully.")
 
 
         # Return the file as an attachment
-        return send_file(verbs_csvfile, as_attachment=True)
+        return send_file(verbs_pptxfile, as_attachment=True)
     except Exception as e:
         # Log any exceptions that occur
         logging.error(f'An error occurred: {str(e)}')
         # Return an error message or redirect to an error page
         return "An error occurred while downloading the file."
+    
+
+    
 
 if __name__ == '__main__':
 
