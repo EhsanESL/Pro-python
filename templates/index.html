@@ -146,7 +146,7 @@
                             <div class="d-flex justify-content-sm-between pt-3 mb-3 align-items-center">
                                 <h6>7. Download Verbs Phrases for Link Arrows</h6>
                                 <button id="verbscollectionbtn" class="btn btn-primary me-md-2 disabled" type="button"
-                                    onclick="downloadVerbCSV()" style="width: 150px
+                                    onclick="downloadVerbspptx()" style="width: 150px
                                     ;">Download</button>
                             </div>
                         </div>
@@ -214,14 +214,21 @@
 
         function downloadallbtn() {
             document.getElementById('downloadall').disabled = true;
-            var fileLink = 'pro1.jpg';
-            setTimeout(function () {
-                document.getElementById('progressBarall').style.width = '100%';
-                document.getElementById('downloadall').textContent = "Downloaded";
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/download_all_files', true);
+            xhr.responseType = 'blob';
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = new Blob([xhr.response], { type: 'application/zip' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'all_files.zip';
+                    link.click();
+                }
+            };
+
+            xhr.send();
         }
 
 
@@ -272,7 +279,7 @@
         }
 
         function downloaddnbtn() {
-                    document.getElementById('decisionnodesbtn').disabled = true;
+            document.getElementById('decisionnodesbtn').disabled = true;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/download_decision_bubbles', true);
             xhr.responseType = 'blob';
@@ -290,17 +297,17 @@
 
 
 
-        function downloadVerbCSV() {
+        function downloadVerbspptx() {
             document.getElementById('verbscollectionbtn').disabled = true;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/download_verbs', true);
             xhr.responseType = 'blob';
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    var blob = new Blob([xhr.response], { type: 'text/csv' });
+                    var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
-                    link.download = 'verbs.csv';
+                    link.download = 'verbs.pptx';
                     link.click();
                 }
             };
@@ -311,22 +318,8 @@
         function resetPage() {
             window.location.href = "/";
         }
-        function downloadall() {
-            document.getElementById('downloadall').disabled = true;
-            var fileLink = 'pro1.jpg';
-            setTimeout(function () {
-                document.getElementById('progressBarpp').style.width = '100%';
-                document.getElementById('progressBarps').style.width = '100%';
-                document.getElementById('progressBarsb').style.width = '100%';
-                document.getElementById('progressBardn').style.width = '100%';
-                document.getElementById('progressBarvc').style.width = '100%';
-                document.getElementById('downloadall').textContent = "All Downloaded";
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);
 
-        }
+
 
     </script>
 </body>
