@@ -57,15 +57,15 @@ def upload():
         filename_without_extension = os.path.splitext(filename_with_identifier)[0]
         logging.info(f"Filename without extension: {filename_without_extension}")
 
-        # Call your Python3 scripts with the uploaded file as an argument
-        logging.info("calling your Python scripts.")
-        subprocess.run(['python', 'sipoc-to-pptx-4-Flask.py', file_path])
+        # Call your python3 scripts with the uploaded file as an argument
+        logging.info("calling your python3 scripts.")
+        subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', file_path])
         logging.info("sipoc-to-pptx-4-Flask.py executed successfully.")
-        subprocess.run(['python', 'Seperate_verbs.py', file_path])
+        subprocess.run(['python3', 'Seperate_verbs.py', file_path])
         logging.info("Seperate_verbs.py executed successfully.")
-        subprocess.run(['python', 'Bracket.py', file_path])
+        subprocess.run(['python3', 'Bracket.py', file_path])
         logging.info("Bracket.py executed successfully.")
-        subprocess.run(['python', 'Decision-Bubbles.py', file_path])
+        subprocess.run(['python3', 'Decision-Bubbles.py', file_path])
         logging.info("Decision-Bubbles.py executed successfully.")
 
         return jsonify({'message': 'Upload successful'}), 200
