@@ -73,7 +73,7 @@ try:
     logger.info(f"Words between parentheses have been saved to '{output_file}'")
 
     # Call the Bracket-Sketch-unique.py script with the output of this script as its input
-    subprocess.run(['python', 'Bracket-Sketch-unique.py', output_file])
+    subprocess.run(['python3', 'Bracket-Sketch-unique.py', output_file])
 
 except Exception as e:
     logger.error(f'An error occurred: {str(e)}')
