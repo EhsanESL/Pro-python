@@ -27,7 +27,7 @@ try:
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
     file_path = os.path.join(filename_with_identifier)
 
-    output_file = os.path.join(filename_without_extension + '_subbubbles'+'.pptx')
+    output_file = os.path.join(filename_without_extension + '_subbubbles'+'.csv')
    
     # List to store cells with parentheses
     cell_with_parentheses = []
