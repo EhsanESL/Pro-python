@@ -27,7 +27,7 @@ try:
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
     file_path = os.path.join(filename_with_identifier)
 
-    output_file = os.path.join(filename_without_extension + '_SubBubbles'+'.pptx')
+    output_file = os.path.join(filename_without_extension + '_subbubbles'+'.pptx')
    
     # List to store cells with parentheses
     cell_with_parentheses = []
@@ -73,7 +73,7 @@ try:
     logger.info(f"Words between parentheses have been saved to '{output_file}'")
 
     # Call the Bracket-Sketch-unique.py script with the output of this script as its input
-    subprocess.run(['python3', 'Bracket-Sketch-unique.py', output_file])
+    subprocess.run(['python', 'Bracket-Sketch-unique.py', output_file])
 
 except Exception as e:
     logger.error(f'An error occurred: {str(e)}')
