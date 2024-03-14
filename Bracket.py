@@ -17,9 +17,6 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-# Download NLTK data if not already installed
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
 
 try:
     # Input CSV file name

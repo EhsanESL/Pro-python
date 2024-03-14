@@ -13,9 +13,6 @@ from pptx.enum.text import PP_ALIGN
 # Configure logging
 logging.basicConfig(filename='separate_verbs.log', level=logging.INFO)
 
-# Download NLTK data if not already installed
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger')
 
 filename_with_identifier = sys.argv[1]
 filename_without_extension = os.path.splitext(filename_with_identifier)[0]
