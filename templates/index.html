@@ -63,6 +63,7 @@
                                         style="width: 150px;" onclick="ConsentModal()">Upload</button></div>
                             </div>
 
+
                             <button type="button" id="ConsentModalbtn" class="btn btn-primary " data-bs-toggle="modal"
                                 data-bs-target="#consentform" style="display: none;">hidden modal button</button>
 
@@ -83,8 +84,8 @@
                                             policy
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Decline</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                onclick="declineuploadmodal()">Decline</button>
                                             <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
                                                 onclick="uploadFile()">Accept</button>
                                         </div>
@@ -172,8 +173,23 @@
             console.log('Download initiated.');
         }
         function ConsentModal() {
+
+            // Disable the button
+            document.getElementById("uploadstbtn").disabled = true;
+
+            // Replace the button content with the loading spinner
+            document.getElementById("uploadstbtn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span>Loading...</span>`;
+
             // Click the hidden button to initiate upload
             document.getElementById('ConsentModalbtn').click();
+        }
+
+        function declineuploadmodal() {
+            // Enable the button
+            document.getElementById("uploadstbtn").disabled = false;
+
+            // Restore the original inner HTML content of the button
+            document.getElementById("uploadstbtn").innerHTML = "Upload";
         }
 
         function uploadFile() {
@@ -213,6 +229,7 @@
         }
 
         function downloadallbtn() {
+            document.getElementById('progressBarall').style.width = '100%';
             document.getElementById('downloadall').disabled = true;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', '/download_all_files', true);
