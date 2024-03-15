@@ -162,15 +162,11 @@
     </div>
     <script>
         function SIPOCTableDownload() {
-            console.log('SIPOC Table download initiated...');
 
-            // Disable the button to prevent multiple clicks
             document.getElementById('newbtn').disabled = true;
-
-            // Click the hidden link to initiate the download
             document.getElementById('downloadLink').click();
+            document.getElementById('newbtn').textContent = "Downloaded";
 
-            console.log('Download initiated.');
         }
         function ConsentModal() {
 
