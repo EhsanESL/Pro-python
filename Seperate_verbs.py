@@ -1,10 +1,8 @@
 import csv
-import nltk
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from pptx import Presentation
 from pptx.util import Inches
-import pydot
 import os
 import sys
 import logging
@@ -12,7 +10,6 @@ from pptx.enum.text import PP_ALIGN
 
 # Configure logging
 logging.basicConfig(filename='separate_verbs.log', level=logging.INFO)
-
 
 filename_with_identifier = sys.argv[1]
 filename_without_extension = os.path.splitext(filename_with_identifier)[0]
@@ -23,9 +20,12 @@ try:
     verbs_data = []
     with open(file_path, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
-        rows = list(csv_reader)
-        for row in rows:
-            for cell in row:
+        for row in csv_reader:
+            for idx, cell in enumerate(row):
+                # Skip columns A and F (index 0 and 5)
+                if idx in [0, 5]:
+                    continue
+                
                 # Split the cell content into individual words
                 words = word_tokenize(cell)
                 # Part-of-speech tagging

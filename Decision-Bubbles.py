@@ -10,7 +10,6 @@ import sys
 from pptx.enum.dml import MSO_LINE_DASH_STYLE
 from pptx.enum.text import PP_ALIGN
 
-
 # Create a new logger instance for decision-bubbles.py
 logger = logging.getLogger('decision-bubbles')
 logger.setLevel(logging.INFO)  # Set the log level to INFO
@@ -58,7 +57,11 @@ try:
 
     # Iterate over all cells in the CSV file
     for row in rows:
-        for cell in row:
+        for idx, cell in enumerate(row):
+            # Skip processing cells in columns A and F (indexes 0 and 5 respectively)
+            if idx in [0, 5]:
+                continue
+
             # Check if the cell begins with "or:" case-insensitive
             if cell.lower().startswith("or:"):
                 # Extract the phrase after "or:"

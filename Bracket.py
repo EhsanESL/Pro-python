@@ -1,5 +1,4 @@
 import csv
-import nltk
 import os
 import sys
 import logging
@@ -17,34 +16,13 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-
 try:
     # Input CSV file name
     filename_with_identifier = sys.argv[1]
     filename_without_extension = os.path.splitext(filename_with_identifier)[0]
     file_path = os.path.join(filename_with_identifier)
 
-    output_file = os.path.join(filename_without_extension + '_subbubbles'+'.csv')
-   
-    # List to store cells with parentheses
-    cell_with_parentheses = []
-
-    with open(file_path, 'r', newline='') as csv_input:
-        reader = csv.reader(csv_input)
-
-        for row in reader:
-            for cell in row:
-                # Check if the cell contains parentheses
-                if '(' in cell or ')' in cell:
-                    cell_with_parentheses.append(cell)
-
-    # Write cells with parentheses to the output CSV file
-    #with open(output_file, 'w', newline='') as csv_output:
-        #writer = csv.writer(csv_output)
-        #writer.writerow(['Cell with Parentheses'])  # Header
-        #writer.writerows([[cell] for cell in cell_with_parentheses])
-
-    #logger.info(f"Cells with parentheses have been saved to '{output_file}'")
+    output_file = os.path.join(filename_without_extension + '_subbubbles' + '.csv')
 
     # List to store words between parentheses
     parentheses_words = []
@@ -56,7 +34,11 @@ try:
         reader = csv.reader(csv_input)
 
         for row in reader:
-            for cell in row:
+            for idx, cell in enumerate(row):
+                # Skip processing cells in columns A and F (indexes 0 and 5 respectively)
+                if idx in [0, 5]:
+                    continue
+                
                 # Find all words between parentheses in the cell and store them
                 matches = re.findall(pattern, cell)
                 parentheses_words.extend(matches)
@@ -70,7 +52,7 @@ try:
     logger.info(f"Words between parentheses have been saved to '{output_file}'")
 
     # Call the Bracket-Sketch-unique.py script with the output of this script as its input
-    subprocess.run(['python3', 'Bracket-Sketch-unique.py', output_file])
+    subprocess.run(['python', 'Bracket-Sketch-unique.py', output_file])
 
 except Exception as e:
     logger.error(f'An error occurred: {str(e)}')

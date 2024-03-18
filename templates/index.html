@@ -268,15 +268,21 @@
         function downloadpsbtn() {
             document.getElementById('processstatementbtn').disabled = true;
             document.getElementById('processstatementbtn').textContent = "Downloaded";
-            var fileLink = 'pro1.jpg';
-            setTimeout(function () {
-                document.getElementById('progressBarps').style.width = '100%';
-                document.getElementById('processstatementbtn').textContent = "Downloaded";
-                var downloadFrame = document.getElementById('downloadFrame');
-                downloadFrame.src = fileLink;
-                window.open(fileLink, '_blank');
-            }, 1000);
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/download_NC_Statement', true);
+            xhr.responseType = 'blob';
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = 'NC_Statement.pptx';
+                    link.click();
+                }
+            };
+            xhr.send();
         }
+
         function downloadsbbtn() {
             document.getElementById('Subbubblesbtn').disabled = true;
             document.getElementById('Subbubblesbtn').textContent = "Downloaded";

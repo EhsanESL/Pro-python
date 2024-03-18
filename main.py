@@ -61,6 +61,8 @@ def upload():
         logging.info("calling your python3 scripts.")
         subprocess.run(['python3', 'sipoc-to-pptx-4-Flask.py', file_path])
         logging.info("sipoc-to-pptx-4-Flask.py executed successfully.")
+        subprocess.run(['python3', 'Non-Core-Process-Statement.py', file_path])
+        logging.info("Non-Core-Process-Statement.py executed successfully.")
         subprocess.run(['python3', 'Seperate_verbs.py', file_path])
         logging.info("Seperate_verbs.py executed successfully.")
         subprocess.run(['python3', 'Bracket.py', file_path])
@@ -87,6 +89,9 @@ def download_all_files():
         logging.info("files_to_download")
         pptx=os.path.join('uploads', filename_without_extension +'.pptx')
         logging.info({pptx})
+        
+        Non_CP_Statement=os.path.join('uploads', filename_without_extension +'_non-cp-statement'+'.pptx')
+        logging.info({Non_CP_Statement})
 
         verbs_pptx=os.path.join('uploads',filename_without_extension +'_verbs'+'.pptx')
         logging.info({verbs_pptx})
@@ -103,6 +108,7 @@ def download_all_files():
         
         files_to_download = [
             pptx,
+            Non_CP_Statement,
             verbs_pptx,
             decision_bubbles,
             subbubbles
@@ -153,6 +159,28 @@ def download_pptx():
 
             # Return the file as an attachment
             return send_file(pptx_filename, as_attachment=True)
+        else:
+            return "No file to download"
+    except Exception as e:
+        # Log any exceptions that occur
+        logging.error(f'An error occurred: {str(e)}')
+        # Return an error message or redirect to an error page
+        return "An error occurred while downloading the file."
+    
+@app.route('/download_NC_Statement')
+def download_NC_Statement():
+    try:
+        # Get the file path from session
+        file_path = session.get('file_path')
+        if file_path:
+            # Specify the path to the PowerPoint file
+            filename_with_identifier = os.path.basename(file_path)
+            filename_without_extension = os.path.splitext(filename_with_identifier)[0]
+            Non_cp_filename = os.path.join('uploads', filename_without_extension +'_non-cp-statement'+'.pptx')
+            logging.info("Non-CP-Statement file downloaded successfully.")
+
+            # Return the file as an attachment
+            return send_file(Non_cp_filename, as_attachment=True)
         else:
             return "No file to download"
     except Exception as e:
